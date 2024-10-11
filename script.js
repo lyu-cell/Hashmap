@@ -15,7 +15,7 @@ class Hashmap {
   }
 
   clear() {
-    array = [];
+    this.array = [];
   }
 
   iterator(node) {
@@ -53,6 +53,29 @@ class Hashmap {
     else return this.keyComparison(key, node.nextNode);
   }
 
+  linkToNode(key, node) {
+    if(node.nextNode.key === key) return node
+    else return this.linkToNode(key, node.nextNode)
+  }
+
+  remove(key) {
+    let hashCode = this.hash(key, this.array.length)
+    if(this.has(key) === false) return false
+    if(this.array[hashCode].key === key ) {
+      this.array[hashCode] = this.array[hashCode].nextNode
+      return true
+    } else {
+      let result = this.linkToNode(key, this.array[hashCode])
+      if(result.nextNode.nextNode === null) {
+        result.nextNode = null
+        return true
+      } else if(result.nextNode.nextNode !== null) {
+        result.nextNode = result.nextNode.nextNode
+        return true
+      }
+    }
+  }
+
   set(key, value) {
     let hashCode = this.hash(key, this.array.length);
 
@@ -66,15 +89,10 @@ class Hashmap {
   }
 }
 
-let hashmap = new Hashmap();
 
-hashmap.set("apple", "red");
-hashmap.set("banana", "yellow");
-hashmap.set("carrot", "orange");
-hashmap.set("dog", "brown");
-hashmap.set("elephant", "gray");
-hashmap.set("frog", "green");
-hashmap.set("god", "maruf")
 
-console.log(hashmap.has("banana"))
-console.log(hashmap.array)
+
+
+
+
+
